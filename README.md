@@ -10,7 +10,7 @@
 ---
 
 <p align="center">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Firebase_Logo.png/800px-Firebase_Logo.png" height="90px" width="280px" style= margin-right:"10px">  
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Firebase_Logo.png/800px-Firebase_Logo.png" height="90px" width="280px">  
     <img src="https://raw.githubusercontent.com/kristerkari/react-native-svg-transformer/master/images/react-native-logo.png" height="90px">
 </p>
 
