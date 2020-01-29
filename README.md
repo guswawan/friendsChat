@@ -18,7 +18,7 @@
 
 ## Table of Contents
 - [About](#About)
-- [Features](#Dependencies)
+- [Features](#Features)
 - [Screen](#Screen)
 ---
 
