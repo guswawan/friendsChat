@@ -38,3 +38,16 @@ FriendChat App makes easy to find friends around and start chatting anytime with
 
 ## Screen
 
+<div align="center">
+    
+<img src=https://user-images.githubusercontent.com/46936229/73362077-c2652880-42d8-11ea-9add-4b7c2dba0873.jpg width="200" />
+<img src=https://user-images.githubusercontent.com/46936229/73362157-e7599b80-42d8-11ea-807f-6d7b8ce19274.jpg width="200" />
+<img src=https://user-images.githubusercontent.com/46936229/73362158-e7599b80-42d8-11ea-9a55-40da98178604.jpg width="200" />
+
+</div>
+
+<div align="center">
+<img src=https://user-images.githubusercontent.com/46936229/73362160-e7599b80-42d8-11ea-852d-02085a457ecd.jpg width="200" />
+<img src=https://user-images.githubusercontent.com/46936229/73362162-e7f23200-42d8-11ea-8ffb-39c36a18bee7.jpg width="200" />
+<img src=https://user-images.githubusercontent.com/46936229/73362163-e7f23200-42d8-11ea-9e6e-791eec2d76cf.jpg width="200" />
+</div>
