@@ -1,0 +1,85 @@
+{
+  "project_info": {
+    "project_number": "685632461927",
+    "firebase_url": "https://friendschat-ca44c.firebaseio.com",
+    "project_id": "friendschat-ca44c",
+    "storage_bucket": "friendschat-ca44c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685632461927:android:babbaf1ab2007d616c88c2",
+        "android_client_info": {
+          "package_name": "com.friendsChat.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "685632461927-ol2i1mltsmkjsh84odvu0msqg57uu90r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.friendsChat.app",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "685632461927-1teai0e5slbngns15vqdalvv5kullt5v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvA7diEOxCqDiqPqABOSILRub1-tbaUNg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "685632461927-1teai0e5slbngns15vqdalvv5kullt5v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685632461927:android:c21fb0b432fbf5996c88c2",
+        "android_client_info": {
+          "package_name": "com.friendschat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "685632461927-2kpn48nljvp0pms6pusbasgojfqq5l60.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.friendschat",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "685632461927-1teai0e5slbngns15vqdalvv5kullt5v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvA7diEOxCqDiqPqABOSILRub1-tbaUNg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "685632461927-1teai0e5slbngns15vqdalvv5kullt5v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
