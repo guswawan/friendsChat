@@ -54,5 +54,5 @@ FriendChat App makes easy to find friends around and start chatting anytime with
 
 ## Link APK
 <a href="https://drive.google.com/file/d/16XbHRPmVuORTk9IsEiim9ch8BKXmJuiB/view?usp=sharing">
-  <img src="https://img.shields.io/badge/Download%20on%20the-Google%20Drive-green.svg?style=popout&logo=google-drive"/>
+  <img src="https://img.shields.io/badge/Download%20on-Google%20Drive-yellow.svg?style=popout&logo=google-drive"/>
 </a>
