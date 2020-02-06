@@ -20,12 +20,10 @@ export class index extends Component {
   };
 
   email = text => {
-    console.log('EMAIL =', text);
     this.setState({email: text});
   };
 
   password = text => {
-    console.log('PASSWORD =', text);
     this.setState({password: text});
   };
 

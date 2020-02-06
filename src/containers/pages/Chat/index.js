@@ -1,15 +1,18 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, StatusBar, Image} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  StatusBar,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 
-// import firebase from 'firebase';
 import firebase from '@react-native-firebase/app';
 import auth from '@react-native-firebase/auth';
-import database from '@react-native-firebase/database';
 import AsyncStorage from '@react-native-community/async-storage';
-
-import {GiftedChat, Bubble, Composer, Send} from 'react-native-gifted-chat';
+import {GiftedChat, Bubble, Send} from 'react-native-gifted-chat';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {TouchableHighlight} from 'react-native-gesture-handler';
 
 export default class index extends Component {
   state = {
@@ -25,7 +28,6 @@ export default class index extends Component {
   onSend = async () => {
     // Get the users ID
     const uid = auth().currentUser.uid;
-    console.log('UID THIS USER CHAT = ', uid);
 
     if (this.state.message.length > 0) {
       let msgId = firebase
@@ -42,7 +44,7 @@ export default class index extends Component {
         user: {
           _id: this.state.uid,
           name: this.state.fname,
-          avatar: this.state.uri || this.state.person.uri,
+          avatar: this.state.uri,
         },
       };
       updates[
@@ -62,12 +64,11 @@ export default class index extends Component {
   componentDidMount = async () => {
     // Get the users ID
     const uid = auth().currentUser.uid;
-    console.log('UID THIS USER CHAT = ', uid);
+
     const userId = await AsyncStorage.getItem('userId');
     const fname = await AsyncStorage.getItem('fname');
     const uri = await AsyncStorage.getItem('uri');
     this.setState({uid, fname, uri});
-    // console.log('HHH', this.state.fname);
     firebase
       .database()
       .ref('messages')
@@ -107,24 +108,8 @@ export default class index extends Component {
   renderSend(props) {
     return (
       <Send {...props}>
-        <View
-          style={{
-            flexDirection: 'row',
-            width: 45,
-            height: 44,
-            backgroundColor: 'white',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <View
-            style={{
-              height: 27,
-              width: 1.6,
-              right: 15,
-              backgroundColor: '#E7ECF0',
-            }}>
-            <Text></Text>
-          </View>
+        <View style={styles.conSendChat}>
+          <View style={styles.verticaLine} />
           <Icon
             name={'ios-send'}
             size={28}
@@ -138,7 +123,7 @@ export default class index extends Component {
 
   render() {
     const person = this.props.navigation.getParam('data');
-    console.log('PERSON', person);
+
     return (
       <View style={{flex: 1}}>
         <View style={styles.header}>
@@ -148,22 +133,18 @@ export default class index extends Component {
             barStyle="light-content"
           />
           <>
-            <TouchableHighlight onPress={() => console.log('true')}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('ListChat')}>
               <Icon
                 name={'ios-arrow-back'}
                 size={28}
                 color={'#fff'}
-                style={{
-                  marginLeft: 0,
-                  marginTop: 0,
-                  marginLeft: 8,
-                  paddingRight: 10,
-                }}
+                style={styles.arrowBack}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
             <View style={styles.img}>
               <Image
-                source={{uri: this.state.person.uri}} //this.state.person.uri
+                source={{uri: this.state.person.uri}}
                 style={styles.photo}
               />
             </View>
@@ -241,5 +222,25 @@ const styles = StyleSheet.create({
     color: 'whitesmoke',
     fontSize: 13,
     paddingLeft: 5,
+  },
+  conSendChat: {
+    flexDirection: 'row',
+    width: 45,
+    height: 44,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  verticaLine: {
+    height: 27,
+    width: 1.6,
+    right: 15,
+    backgroundColor: '#E7ECF0',
+  },
+  arrowBack: {
+    marginLeft: 0,
+    marginTop: 0,
+    marginLeft: 8,
+    paddingRight: 10,
   },
 });

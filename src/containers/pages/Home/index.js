@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -14,12 +14,9 @@ import firebase from '@react-native-firebase/app';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import {BoxShadow} from 'react-native-shadow';
-import AsyncStorage from '@react-native-community/async-storage';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
-import Geocoder from 'react-native-geocoding';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {ScrollView} from 'react-native-gesture-handler';
 
 export class index extends Component {
   constructor(props) {
@@ -94,13 +91,12 @@ export class index extends Component {
         showLocationDialog: true,
         enableHighAccuracy: true,
         timeout: 20000,
-        maximumAge: 0,
+        maximumAge: 0, //must be remove
       },
     );
   };
 
   getDataUser = async () => {
-    // Get the users ID
     const uid = auth().currentUser.uid;
     console.log('UID THIS USER = ', uid);
 
@@ -119,7 +115,7 @@ export class index extends Component {
         await this.setState({
           dataUsers: data,
         });
-        console.log('data ALL user = ', this.state.dataUser);
+        // console.log('data ALL user = ', this.state.dataUser);
         // console.log('data ALL user image = ', data.uri);
       });
   };
@@ -157,12 +153,10 @@ export class index extends Component {
   };
 
   handleProfile = () => {
-    console.log('GO PROFILE');
     this.props.navigation.navigate('Profile');
   };
 
   goListChat = () => {
-    console.log('GO CHAT');
     this.props.navigation.navigate('ListChat');
   };
 
@@ -171,12 +165,9 @@ export class index extends Component {
       .auth()
       .signOut()
       .then(res => {
-        // Sign-out successful.
-        console.log('You are Logout');
         this.props.navigation.navigate('GetStarted');
       })
       .catch(err => {
-        // An error happened.
         console.log(err);
       });
   };
@@ -203,7 +194,6 @@ export class index extends Component {
       opacity: 0.13,
       x: 0,
       y: -2.5,
-      // style: {marginVertical: 5},
     };
 
     return (
@@ -215,7 +205,6 @@ export class index extends Component {
         />
 
         {/* MAP Start */}
-        {/* <View style={{flex: 1}}> */}
         <MapView
           ref={ref => (myMap = ref)}
           provider={PROVIDER_GOOGLE} // remove if not using Google Maps
@@ -232,48 +221,27 @@ export class index extends Component {
           }}>
           {this.state.dataUsers.map(data => {
             {
-              console.log('INI DATA MAP ', data.data);
+              console.log('THIS DATA MAP ', data.data);
             }
             return (
               <Marker
                 key={data.data.uid}
-                // onPress={this.goDetailMarker}
+                title={data.data.fname}
+                description={data.data.about}
                 coordinate={{
                   latitude: Number(data.data.latitude),
                   longitude: Number(data.data.longitude),
                 }}
-                title={data.data.fname}
-                description={data.data.about}
                 onPress={() => {
                   this.props.navigation.navigate('DetailMarker', {data});
                 }}>
-                {/* <TouchableOpacity onPress={this.goDetailMarker}> */}
                 <View onPress={this.up}>
                   <Image
-                    style={{
-                      width: 45,
-                      height: 45,
-                      borderRadius: 360,
-                      borderColor: '#fff',
-                      borderWidth: 1.5,
-                    }}
-                    source={{
-                      uri: data.data.uri,
-                    }}
+                    style={styles.imgMarker}
+                    source={{uri: data.data.uri}}
                   />
-                  <View
-                    style={{
-                      backgroundColor: '#fff',
-                      elevation: 1,
-                      width: 6,
-                      height: 6,
-                      borderRadius: 100,
-                      marginTop: 5,
-                      alignSelf: 'center',
-                    }}
-                  />
+                  <View style={styles.dotMarker} />
                 </View>
-                {/* </TouchableOpacity> */}
               </Marker>
             );
           })}
@@ -281,24 +249,14 @@ export class index extends Component {
         {/* MAP END */}
 
         {/* CURRENT USER */}
-        <View
-          style={{
-            backgroundColor: '#fff',
-            width: '50%',
-            alignSelf: 'center',
-            borderRadius: 10,
-            top: 50,
-            opacity: 0.8,
-            // left: 100,
-            elevation: 5,
-          }}>
+        <View style={styles.containerCurrentUser}>
           <Text style={styles.emailCurrent}>
             Hi, {currentUser && currentUser.email}
           </Text>
         </View>
         {/* END CURRENT USER */}
 
-        {/* Bottom bar start */}
+        {/* BOTTOM BAR START */}
         <View style={{flex: 1}}></View>
         <View
           style={{
@@ -330,7 +288,6 @@ export class index extends Component {
                         alignSelf: 'center',
                       }}
                     />
-                    {/* <Text style={{padding: 10}}>Profile</Text> */}
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={this.goListChat}>
@@ -343,7 +300,6 @@ export class index extends Component {
                         alignSelf: 'center',
                       }}
                     />
-                    {/* <Text style={{padding: 10}}>Contact</Text> */}
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={this.handleSignOut}>
@@ -356,15 +312,13 @@ export class index extends Component {
                         alignSelf: 'center',
                       }}
                     />
-                    {/* <Text style={styles.txtSignOut}>Sign Out</Text> */}
                   </View>
                 </TouchableOpacity>
               </View>
             </View>
           </BoxShadow>
         </View>
-        {/* Bottom bar end */}
-        {/* </View> */}
+        {/* BOTTOM BAR END */}
         {/* MAP End */}
       </View>
     );
@@ -423,6 +377,31 @@ const styles = StyleSheet.create({
     paddingHorizontal: 11,
     color: '#000',
     alignSelf: 'center',
+  },
+  imgMarker: {
+    width: 45,
+    height: 45,
+    borderRadius: 360,
+    borderColor: '#fff',
+    borderWidth: 1.5,
+  },
+  dotMarker: {
+    backgroundColor: '#fff',
+    elevation: 1,
+    width: 6,
+    height: 6,
+    borderRadius: 100,
+    marginTop: 5,
+    alignSelf: 'center',
+  },
+  containerCurrentUser: {
+    backgroundColor: '#fff',
+    width: '50%',
+    alignSelf: 'center',
+    borderRadius: 10,
+    top: 50,
+    opacity: 0.8,
+    elevation: 5,
   },
 });
 

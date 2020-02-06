@@ -11,6 +11,7 @@ import {
   PermissionsAndroid,
   ScrollView,
   Dimensions,
+  Alert,
   ActivityIndicator,
 } from 'react-native';
 import {Input, ButtonGroup} from 'react-native-elements';
@@ -40,22 +41,17 @@ export class index extends Component {
       longitude: 0,
       selectedIndex: 1,
     };
-    // this.updateIndex = this.updateIndex.bind(this);
-    this.getImage();
   }
 
   fname = text => {
-    console.log('FNAME =', text);
     this.setState({fname: text});
   };
 
   about = text => {
-    console.log('ABOUT =', text);
     this.setState({about: text});
   };
 
   phone = text => {
-    console.log('PHONE =', text);
     this.setState({phone: text});
   };
 
@@ -69,14 +65,11 @@ export class index extends Component {
   };
 
   age = text => {
-    console.log('AGE =', text);
     this.setState({age: text});
   };
 
   setFoodImage = image => {
-    console.log('SETIMAGE');
-    const imageUri = this.setState({imageUri: image});
-    console.log('IMAGE URI: ', imageUri);
+    this.setState({imageUri: image});
   };
 
   requestLocationPermission = async () => {
@@ -114,8 +107,8 @@ export class index extends Component {
         });
         const latuser = this.state.latitude;
         const longuser = this.state.longitude;
-        console.log('INI LATITUDE USER ', latuser);
-        console.log('INI LONGITUDE USER ', longuser);
+        console.log('THIS LATITUDE USER ', latuser);
+        console.log('THIS LONGITUDE USER ', longuser);
       },
       error => {
         Alert.alert(error.message.toString());
@@ -124,7 +117,7 @@ export class index extends Component {
         showLocationDialog: true,
         enableHighAccuracy: true,
         timeout: 20000,
-        maximumAge: 0,
+        // maximumAge: 0,
       },
     );
   };
@@ -132,15 +125,12 @@ export class index extends Component {
   getImage = () => {
     // Get the users ID
     const uid = auth().currentUser.uid;
-    console.log('UID THIS USER = ', uid);
 
     firebase
       .storage()
       .ref(`/friendsPhotos/${uid}.jpg`)
-      // .child(uid, '.jpg')
       .getDownloadURL()
       .then(uri => {
-        console.log('URL GET IMAGE', uri);
         this.setState({
           uri: uri,
         });
@@ -152,9 +142,6 @@ export class index extends Component {
 
     // Get the users ID
     const uid = auth().currentUser.uid;
-    console.log('UID THIS USER = ', uid);
-    // const fname = await AsyncStorage.getItem('fname');
-    // const phone = await AsyncStorage.getItem('phone');
 
     firebase
       .database()
@@ -165,7 +152,6 @@ export class index extends Component {
       })
       .then(res => {
         //success callback
-        console.log('res data = ', res._snapshot.value);
         AsyncStorage.setItem('fname', res._snapshot.value.fname);
         AsyncStorage.setItem('userId', res._snapshot.value.uid);
         AsyncStorage.setItem('uri', res._snapshot.value.uri);
@@ -187,22 +173,14 @@ export class index extends Component {
     const {uri} = this.state;
     return (
       <Fragment>
-        <TouchableOpacity onPress={this.patchPP}>
-          <Image
-            style={{
-              width: '100%',
-              height: '100%',
-              borderRadius: 360,
-              borderColor: '#fff',
-              borderWidth: 2.5,
-            }}
-            source={{
-              uri:
-                uri ||
-                'https://www.wellnessodyssey.co.za/wp-content/uploads/2016/04/default-user-icon.png',
-            }}
-          />
-        </TouchableOpacity>
+        <Image
+          style={styles.imgProfile}
+          source={{
+            uri:
+              uri ||
+              'https://www.wellnessodyssey.co.za/wp-content/uploads/2016/04/default-user-icon.png',
+          }}
+        />
         <CurryImagePicker
           image={this.props.image}
           onImagePicked={this.setFoodImage}
@@ -212,52 +190,13 @@ export class index extends Component {
     );
   }
 
-  patchPP = async () => {
-    this.getImage();
-    console.log('PRESS CHANGED PP');
-    // Get the users ID
-    const uid = auth().currentUser.uid;
-    console.log('CUR ', uid);
-
-    // Create a reference
-    const ref = database().ref(`users/${uid}`);
-    console.log('REF ', ref);
-
-    // await AsyncStorage.setItem('fname', data.fname);
-    // await AsyncStorage.setItem('phone', data.phone);
-    await ref
-      .set({
-        uid,
-        fname: this.state.fname,
-        phone: this.state.phone,
-        about: this.state.about,
-        sex: this.state.sex,
-        age: this.state.age,
-        uri: this.state.uri,
-        latitude: this.state.latitude,
-        longitude: this.state.longitude,
-      })
-      .then(res => {
-        //success callback
-        console.log('PP changed = ', res);
-        this.getImage();
-      })
-
-      .catch(error => {
-        //error callback
-        console.log('error ', error);
-      });
-  };
-
   patchProfile = async () => {
     console.log('PRESS DONE PROFILE');
     // Get the users ID
     const uid = auth().currentUser.uid;
-    console.log('CUR ', uid);
 
     // Create a reference
     const ref = database().ref(`users/${uid}`);
-    console.log('REF ', ref);
 
     const data = {
       fname: this.state.fname,
@@ -269,9 +208,6 @@ export class index extends Component {
       latitude: this.state.latitude,
       longitude: this.state.longitude,
     };
-    console.log('DATA U Detail = ', data);
-    // await AsyncStorage.setItem('fname', data.fname);
-    // await AsyncStorage.setItem('phone', data.phone);
 
     await ref
       .set({
@@ -286,8 +222,6 @@ export class index extends Component {
         longitude: data.longitude,
       })
       .then(res => {
-        //success callback
-        // console.log('data = ', res);
         ToastAndroid.showWithGravity(
           'Profile Updated',
           ToastAndroid.SHORT,
@@ -296,14 +230,11 @@ export class index extends Component {
         this.props.navigation.navigate('Home');
       })
       .catch(error => {
-        //error callback
         console.log('error ', error);
       });
   };
 
   componentDidMount() {
-    console.log('DIDMOUNT');
-    // this.getDataAsync();
     this.requestLocationPermission();
     this.currentPosition();
     this.getDataProfile();
@@ -313,7 +244,6 @@ export class index extends Component {
   render() {
     const deviceWidth = Dimensions.get('window').width;
     const {uri} = this.state;
-    console.log('URL state', uri);
     const sex = ['Female', 'Male'];
     const {selectedIndex} = this.state;
 
@@ -324,73 +254,28 @@ export class index extends Component {
           backgroundColor="#1DA1F3"
           barStyle="light-content"
         />
+
         {/* HEADER START */}
         <View style={{backgroundColor: '#1DA1F3', paddingBottom: 15}}>
-          <Text
-            style={{
-              color: '#fff',
-              marginTop: 38,
-              marginLeft: 20,
-              fontSize: 20,
-              fontWeight: 'bold',
-            }}>
-            Edit Profile
-          </Text>
+          <Text style={styles.txtHeader}>Edit Profile</Text>
           <View style={{left: '86%', marginTop: -25}}>
-            {/* <IconAwesome name="check" size={20} color="#fff" /> */}
             <TouchableOpacity onPress={this.patchProfile}>
-              <Text
-                style={{
-                  color: '#fff',
-                  fontWeight: 'bold',
-                  fontSize: 16,
-                  letterSpacing: 0.5,
-                }}>
-                Done
-              </Text>
+              <Text style={styles.txtDone}>Done</Text>
             </TouchableOpacity>
           </View>
         </View>
         {/* HEADER END */}
+
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View
-            style={{
-              height: 250,
-              backgroundColor: '#1DA1F3',
-              // elevation: 3,
-            }}></View>
+          <View style={styles.sectionTop} />
           <View style={{marginTop: -195}}>
-            <View
-              style={{
-                marginBottom: 70,
-                // borderWidth: 1,
-                width: 125,
-                height: 125,
-                alignSelf: 'center',
-              }}>
-              {this.renderImage()}
-            </View>
+            <View style={styles.imgProfileCircle}>{this.renderImage()}</View>
           </View>
 
-          <View
-            style={{
-              alignSelf: 'center',
-              height: 380,
-              width: 360,
-              marginBottom: 5,
-              backgroundColor: '#fff',
-              elevation: 3,
-              zIndex: 9,
-              borderBottomRightRadius: 20,
-              borderBottomLeftRadius: 20,
-            }}>
+          {/* SECTION CONTENT START*/}
+          <View style={styles.conCard}>
             <View style={{backgroundColor: 'white', paddingRight: 15}}>
-              <View
-                style={{
-                  marginTop: 20,
-                  width: 360,
-                  alignSelf: 'center',
-                }}>
+              <View style={styles.contentStatus}>
                 <Input
                   inputContainerStyle={{borderBottomWidth: 0}}
                   value={this.state.about}
@@ -401,22 +286,13 @@ export class index extends Component {
                     <Text
                       marginLeft={-20}
                       color="#ededed"
-                      style={{
-                        fontSize: 18,
-                        color: '#bbb',
-                        paddingRight: 30,
-                      }}>
+                      style={styles.txtStatus}>
                       Status Message
                     </Text>
                   }
                 />
               </View>
-              <View
-                style={{
-                  marginTop: 20,
-                  width: 360,
-                  alignSelf: 'center',
-                }}>
+              <View style={styles.contentName}>
                 <Input
                   inputContainerStyle={{borderBottomWidth: 0}}
                   value={this.state.fname}
@@ -427,23 +303,13 @@ export class index extends Component {
                     <Text
                       marginLeft={-20}
                       color="#ededed"
-                      style={{
-                        fontSize: 18,
-                        color: '#bbb',
-                        paddingRight: 30,
-                      }}>
+                      style={styles.txtName}>
                       Full Name
                     </Text>
                   }
                 />
               </View>
-
-              <View
-                style={{
-                  marginTop: 15,
-                  width: 360,
-                  alignSelf: 'center',
-                }}>
+              <View style={styles.contentPhone}>
                 <Input
                   inputContainerStyle={{borderBottomWidth: 0}}
                   value={this.state.phone}
@@ -455,23 +321,13 @@ export class index extends Component {
                     <Text
                       marginLeft={-20}
                       color="#ededed"
-                      style={{
-                        fontSize: 18,
-                        color: '#bbb',
-                        paddingRight: 30,
-                      }}>
+                      style={styles.txtPhone}>
                       Phone
                     </Text>
                   }
                 />
               </View>
-              <View
-                style={{
-                  marginTop: 15,
-                  // width: 360,
-                  width: '100%',
-                  alignSelf: 'center',
-                }}>
+              <View style={styles.contentAge}>
                 <Input
                   inputContainerStyle={{borderBottomWidth: 0}}
                   textAlign="right"
@@ -480,73 +336,30 @@ export class index extends Component {
                   onChangeText={this.age}
                   value={this.state.age}
                   leftIcon={
-                    <Text
-                      marginLeft={-20}
-                      color="#ededed"
-                      style={{
-                        fontSize: 18,
-                        color: '#bbb',
-                        paddingRight: 30,
-                      }}>
+                    <Text color="#ededed" style={styles.txtAge}>
                       Age
                     </Text>
                   }
                 />
               </View>
-              <View
-                style={{
-                  marginTop: 15,
-                  width: 360,
-                  // alignSelf: 'center',
-                  marginLeft: 180,
-                }}>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    color: '#bbb',
-                    marginLeft: -162,
-                    marginTop: 15,
-                  }}>
-                  Sex
-                </Text>
+              <View style={styles.contentSex}>
+                <Text style={styles.txtSex}>Sex</Text>
                 <ButtonGroup
                   style={{backgroundColor: 'white'}}
                   onPress={this.updateSex}
                   selectedIndex={selectedIndex}
                   buttons={sex}
-                  containerStyle={{
-                    height: 30,
-                    width: 150,
-                    borderColor: '#fff',
-                    borderRadius: 10,
-                    marginTop: -25,
-                    // backgroundColor: '#1DA1F3',
-                  }}
+                  containerStyle={styles.btnSelected}
                 />
               </View>
             </View>
           </View>
+          {/* SECTION CONTENT END */}
 
           <TouchableHighlight
             onPress={() => this.props.navigation.navigate('Home')}
             activeOpacity={1}>
-            <Text
-              style={{
-                alignSelf: 'center',
-                top: 9,
-                color: '#1DA1F3',
-                backgroundColor: '#fff',
-                fontWeight: 'bold',
-                fontSize: 18,
-                paddingHorizontal: 50,
-                paddingVertical: 10,
-                letterSpacing: 0.5,
-                elevation: 3,
-                borderRadius: 50,
-                marginBottom: 20,
-              }}>
-              Back
-            </Text>
+            <Text style={styles.btnBack}>Back</Text>
           </TouchableHighlight>
         </ScrollView>
       </View>
@@ -555,11 +368,119 @@ export class index extends Component {
 }
 
 let styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    padding: 20,
-    paddingTop: 60,
+  imgProfile: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 360,
+    borderColor: '#fff',
+    borderWidth: 2.5,
+  },
+  txtHeader: {
+    color: '#fff',
+    marginTop: 38,
+    marginLeft: 20,
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  txtDone: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+    letterSpacing: 0.5,
+  },
+  sectionTop: {
+    height: 250,
+    backgroundColor: '#1DA1F3',
+  },
+  imgProfileCircle: {
+    marginBottom: 70,
+    width: 125,
+    height: 125,
+    alignSelf: 'center',
+  },
+  conCard: {
+    alignSelf: 'center',
+    height: 380,
+    width: 360,
+    marginBottom: 5,
+    backgroundColor: '#fff',
+    elevation: 3,
+    zIndex: 9,
+    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 20,
+  },
+  contentStatus: {
+    marginTop: 20,
+    width: 360,
+    alignSelf: 'center',
+  },
+  txtStatus: {
+    fontSize: 18,
+    color: '#bbb',
+    paddingRight: 30,
+  },
+  contentName: {
+    marginTop: 20,
+    width: 360,
+    alignSelf: 'center',
+  },
+  txtName: {
+    fontSize: 18,
+    color: '#bbb',
+    paddingRight: 30,
+  },
+  contentPhone: {
+    marginTop: 15,
+    width: 360,
+    alignSelf: 'center',
+  },
+  txtPhone: {
+    fontSize: 18,
+    color: '#bbb',
+    paddingRight: 30,
+  },
+  contentAge: {
+    marginTop: 15,
+    width: '100%',
+    alignSelf: 'center',
+  },
+  txtAge: {
+    fontSize: 18,
+    color: '#bbb',
+    left: -5,
+    paddingRight: 30,
+  },
+  contentSex: {
+    marginTop: 15,
+    width: 360,
+    marginLeft: 180,
+  },
+  txtSex: {
+    fontSize: 18,
+    color: '#bbb',
+    marginLeft: -162,
+    marginTop: 15,
+  },
+  btnSelected: {
+    height: 30,
+    width: 150,
+    borderColor: '#fff',
+    borderRadius: 10,
+    marginTop: -25,
+  },
+  btnBack: {
+    alignSelf: 'center',
+    top: 10,
+    color: '#1DA1F3',
+    backgroundColor: '#fff',
+    fontWeight: 'bold',
+    fontSize: 18,
+    paddingHorizontal: 50,
+    paddingVertical: 10,
+    letterSpacing: 0.5,
+    elevation: 3,
+    borderRadius: 50,
+    marginBottom: 20,
   },
 });
 

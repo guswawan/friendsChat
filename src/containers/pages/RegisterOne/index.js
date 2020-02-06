@@ -21,22 +21,19 @@ export class index extends Component {
   };
 
   email = text => {
-    console.log('EMAIL REGIS =', text);
     this.setState({email: text});
   };
 
   password = text => {
-    console.log('PASS REGIS = ', text);
     this.setState({password: text});
   };
 
   goNext = () => {
-    console.log('GO NEXT');
     this.props.navigation.navigate('RegisterThree');
   };
 
   handleRegisterEmail = async () => {
-    console.log('handleRegisterEmail');
+    // console.log('handleRegisterEmail');
     await AsyncStorage.setItem('uid', this.state.uid);
     await AsyncStorage.setItem('email', this.state.email);
 
@@ -44,8 +41,8 @@ export class index extends Component {
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(res => {
-        console.log('RES FIRE =', res);
         this.goNext();
+        // console.log('RES FIRE =', res);
       })
 
       .catch(error => this.setState({errorMessage: error.message}));
@@ -59,6 +56,7 @@ export class index extends Component {
           backgroundColor="transparent"
           barStyle="dark-content"
         />
+
         <View style={{flex: 1, backgroundColor: 'white'}}>
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate('GetStarted')}>
@@ -72,13 +70,7 @@ export class index extends Component {
               marginLeft={30}
             />
           </TouchableOpacity>
-          <View
-            style={{
-              marginTop: 25,
-              fontSize: 12,
-              fontWeight: 'bold',
-              marginLeft: 45,
-            }}>
+          <View style={styles.conTitle}>
             <Text style={{fontSize: 32, fontWeight: 'bold'}}>
               Create account
             </Text>
@@ -91,24 +83,14 @@ export class index extends Component {
           )}
           <ScrollView showsVerticalScrollIndicator={false}>
             <View width="100%">
-              <View
-                style={{
-                  marginTop: 90,
-                  width: 315,
-                  alignSelf: 'center',
-                }}>
+              <View style={styles.conFormEmail}>
                 <Input
                   label="Email"
                   onChangeText={this.email}
                   value={this.state.email}
                 />
               </View>
-              <View
-                style={{
-                  marginTop: 40,
-                  width: 315,
-                  alignSelf: 'center',
-                }}>
+              <View style={styles.conFormPass}>
                 <Input
                   secureTextEntry={true}
                   label="Password"
@@ -116,16 +98,8 @@ export class index extends Component {
                   value={this.state.password}
                 />
               </View>
-
               <Image
-                style={{
-                  // backgroundColor: 'pink',
-                  alignSelf: 'center',
-                  width: 359,
-                  height: 250,
-                  marginTop: 10,
-                  zIndex: 0,
-                }}
+                style={styles.img}
                 source={require('../../../assets/images/connection.png')}
               />
             </View>
@@ -134,16 +108,7 @@ export class index extends Component {
 
         <TouchableOpacity onPress={this.handleRegisterEmail}>
           <View style={{height: 60, backgroundColor: '#1DA1F3'}}>
-            <Text
-              style={{
-                color: '#fff',
-                fontSize: 18,
-                fontWeight: 'normal',
-                alignSelf: 'center',
-                marginVertical: 15,
-              }}>
-              Next
-            </Text>
+            <Text style={styles.btnNext}>Next</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -152,11 +117,35 @@ export class index extends Component {
 }
 
 let styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    padding: 20,
-    paddingTop: 60,
+  conTitle: {
+    marginTop: 25,
+    fontSize: 12,
+    fontWeight: 'bold',
+    marginLeft: 45,
+  },
+  conFormEmail: {
+    marginTop: 90,
+    width: 315,
+    alignSelf: 'center',
+  },
+  conFormPass: {
+    marginTop: 40,
+    width: 315,
+    alignSelf: 'center',
+  },
+  img: {
+    alignSelf: 'center',
+    width: 359,
+    height: 250,
+    marginTop: 10,
+    zIndex: 0,
+  },
+  btnNext: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'normal',
+    alignSelf: 'center',
+    marginVertical: 15,
   },
 });
 
