@@ -6,7 +6,6 @@ import RegisterThree from './RegisterThree';
 import CurryImagePicker from './CurryImagePicker';
 import SignIn from './SignIn';
 import Home from './Home';
-import ViewMaps from './ViewMaps';
 import Profile from './Profile';
 import DetailMarker from './DetailMarker';
 import Chat from './Chat';
@@ -21,7 +20,6 @@ export {
   CurryImagePicker,
   SignIn,
   Home,
-  ViewMaps,
   Profile,
   DetailMarker,
   Chat,

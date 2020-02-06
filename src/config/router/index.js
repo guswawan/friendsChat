@@ -9,7 +9,6 @@ import {
   CurryImagePicker,
   SignIn,
   Home,
-  ViewMaps,
   Profile,
   DetailMarker,
   Chat,
@@ -33,7 +32,7 @@ const SignInStack = createStackNavigator(
 );
 
 const HomeStack = createStackNavigator(
-  {Home, ViewMaps, Profile, DetailMarker, Chat, ListChat},
+  {Home, Profile, DetailMarker, Chat, ListChat},
   {
     headerMode: 'none',
     initialRouteName: 'Home',
