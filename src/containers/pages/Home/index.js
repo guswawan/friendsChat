@@ -17,6 +17,20 @@ import {BoxShadow} from 'react-native-shadow';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 import Icon from 'react-native-vector-icons/Ionicons';
+import OneSignal from 'react-native-onesignal';
+import PushController from '../../../utils/PushController';
+
+// Dummy data for list, we'll replace this with data received from push
+let pushData = [
+  {
+    title: 'First push',
+    message: 'First push message',
+  },
+  {
+    title: 'Second push',
+    message: 'Second push message',
+  },
+];
 
 export class index extends Component {
   constructor(props) {
@@ -34,7 +48,36 @@ export class index extends Component {
       coordinates: [],
       dataUsers: [],
     };
+    // OneSignal.init('d3b4e6c8-c3dc-4039-85c7-0b4c1b88e3fd', {
+    //   kOSSettingsKeyAutoPrompt: true,
+    // });
+
+    // OneSignal.addEventListener('received', this.onReceived);
+    // OneSignal.addEventListener('opened', this.onOpened);
+    // OneSignal.addEventListener('ids', this.onIds);
   }
+
+  // componentWillUnmount() {
+  //   OneSignal.removeEventListener('received', this.onReceived);
+  //   OneSignal.removeEventListener('opened', this.onOpened);
+  //   OneSignal.removeEventListener('ids', this.onIds);
+  // }
+
+  // onReceived(notification) {
+  //   console.log('Notification received: ', notification);
+  // }
+
+  // onOpened(openResult) {
+  //   alert('Message: ', openResult.notification.payload.body);
+  //   alert('Data: ', openResult.notification.payload.additionalData);
+  //   alert('isActive: ', openResult.notification.isAppInFocus);
+  //   alert('openResult: ', openResult);
+  // }
+
+  // onIds(device) {
+  //   alert('Device info: ', device);
+  // }
+  //END ONESIGNAL //
 
   requestLocationPermission = async () => {
     try {
@@ -179,6 +222,13 @@ export class index extends Component {
     this.requestLocationPermission();
     this.getDataUser();
   }
+
+  _renderItem = ({item}) => {
+    <View key={item.title}>
+      <Text style={style.titleNotif}>{item.title}</Text>
+      <Text style={styles.messageNotif}>{item.message}</Text>
+    </View>;
+  };
 
   render() {
     let myMap;
@@ -402,6 +452,17 @@ const styles = StyleSheet.create({
     top: 50,
     opacity: 0.8,
     elevation: 5,
+  },
+  titleNotif: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    paddingTop: 10,
+  },
+  messageNotif: {
+    fontSize: 14,
+    paddingBottom: 15,
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 1,
   },
 });
 
