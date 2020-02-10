@@ -33,7 +33,6 @@ export class index extends Component {
   };
 
   handleRegisterEmail = async () => {
-    // console.log('handleRegisterEmail');
     await AsyncStorage.setItem('uid', this.state.uid);
     await AsyncStorage.setItem('email', this.state.email);
 
@@ -42,7 +41,6 @@ export class index extends Component {
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(res => {
         this.goNext();
-        // console.log('RES FIRE =', res);
       })
 
       .catch(error => this.setState({errorMessage: error.message}));

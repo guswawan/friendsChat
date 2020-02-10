@@ -10,7 +10,6 @@ import {
   AsyncStorage,
   RefreshControl,
   StyleSheet,
-  SafeAreaView,
 } from 'react-native';
 
 import firebase from '@react-native-firebase/app';
@@ -57,7 +56,6 @@ export default class index extends React.Component {
     return (
       <View style={{marginHorizontal: 0}}>
         <TouchableOpacity
-          //   onPress={() => this.props.navigation.navigate('Chat', {item})}
           onPress={() =>
             this.props.navigation.navigate('Chat', {
               item,
@@ -94,8 +92,6 @@ export default class index extends React.Component {
   render() {
     return (
       <Fragment>
-        {/* <SafeAreaView> */}
-
         <TouchableHighlight
           onPress={() => this.props.navigation.navigate('Home')}
           activeOpacity={1}>
@@ -146,7 +142,6 @@ export default class index extends React.Component {
             )}
           </View>
         </ScrollView>
-        {/* </SafeAreaView> */}
       </Fragment>
     );
   }
