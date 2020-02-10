@@ -20,18 +20,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import OneSignal from 'react-native-onesignal';
 import PushController from '../../../utils/PushController';
 
-// Dummy data for list, we'll replace this with data received from push
-let pushData = [
-  {
-    title: 'First push',
-    message: 'First push message',
-  },
-  {
-    title: 'Second push',
-    message: 'Second push message',
-  },
-];
-
 export class index extends Component {
   constructor(props) {
     super(props);
@@ -158,8 +146,6 @@ export class index extends Component {
         await this.setState({
           dataUsers: data,
         });
-        // console.log('data ALL user = ', this.state.dataUser);
-        // console.log('data ALL user image = ', data.uri);
       });
   };
 
