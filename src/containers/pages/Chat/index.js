@@ -6,6 +6,7 @@ import {
   StatusBar,
   Image,
   TouchableOpacity,
+  AppState,
 } from 'react-native';
 
 import firebase from '@react-native-firebase/app';
@@ -62,6 +63,8 @@ export default class index extends Component {
   };
 
   componentDidMount = async () => {
+    AppState.addEventListener('change', this.handleMChange);
+
     // Get the users ID
     const uid = auth().currentUser.uid;
 
@@ -79,6 +82,12 @@ export default class index extends Component {
           messageList: GiftedChat.append(previousState.messageList, val.val()),
         }));
       });
+  };
+
+  handleMChange = appState => {
+    if (appState === 'background') {
+      console.log('app is in background', this.state.message);
+    }
   };
 
   renderBubble(props) {
