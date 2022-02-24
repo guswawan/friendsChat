@@ -19,7 +19,7 @@
 ## Table of Contents
 - [About](#About)
 - [Features](#Features)
-- [Screen](#Screen)
+- [Screencapture](#Screencapture)
 ---
 
 ## About
@@ -36,7 +36,7 @@ FriendChat App makes easy to find friends around and start chatting anytime with
 * See other users on the map
 * See other user profiles
 
-## Screen
+## Screencapture
 
 <div align="center">
     
